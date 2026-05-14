@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Futuristic Interface</title>
+
+    <style>
+        /* GLOBAL PAGE STYLE + DARK NEON GRID BACKGROUND */
+        body {
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            cursor: none;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background:
+                linear-gradient(270deg, #000000, #0a0a0a, #111111),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0,255,180,0.05) 0px,
+                    rgba(0,255,180,0.05) 2px,
+                    transparent 2px,
+                    transparent 40px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0,255,180,0.05) 0px,
+                    rgba(0,255,180,0.05) 2px,
+                    transparent 2px,
+                    transparent 40px
+                );
+            background-size: 600% 600%, auto, auto;
+            animation: bgShift 12s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%, 0 0, 0 0; }
+            50% { background-position: 100% 50%, 0 0, 0 0; }
+            100% { background-position: 0% 50%, 0 0, 0 0; }
+        }
+
+        /* HOLOGRAM SCANLINES */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.03) 0px,
+                rgba(255,255,255,0.03) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            animation: scan 6s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* STARTUP BOOT SCREEN */
+        #boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: #00ffcc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            letter-spacing: 3px;
+            z-index: 9999;
+            animation: bootFade 3s forwards;
+        }
+
+        @keyframes bootFade {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .boot-text {
+            animation: bootBlink 1s infinite;
+        }
+
+        @keyframes bootBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* SYSTEM ONLINE INTRO */
+        #system-online {
+            position: fixed;
+            top: 40%;
+            width: 100%;
+            text-align: center;
+            font-size: 40px;
+            color: #00ffcc;
+            opacity: 0;
+            letter-spacing: 6px;
+            text-shadow: 0 0 10px #00ffcc;
+            animation: onlineFade 4s ease forwards;
+            animation-delay: 3s;
+            z-index: 9998;
+        }
+
+        @keyframes onlineFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* START SYSTEM BUTTON */
+        #start-btn {
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 40px;
+            background: rgba(0,255,180,0.1);
+            border: 2px solid #00ffcc;
+            color: #00ffcc;
+            font-size: 28px;
+            cursor: pointer;
+            text-shadow: 0 0 10px #00ffcc;
+            z-index: 999999;
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        #start-btn:hover {
+            box-shadow: 0 0 30px #00ffcc inset;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* CUSTOM SCI-FI CURSOR */
+        #cursor-dot {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #00ffcc;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px #00ffcc;
+            transform: translate(-50%, -50%);
+            z-index: 99999;
+        }
+
+        /* NEON FLICKER TEXT */
+        .neon-flicker {
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+                text-shadow:
+                    0 0 5px #00ffcc,
+                    0 0 10px #00ffcc,
+                    0 0 20px #00ffcc;
+            }
+            20%, 24%, 55% {
+                opacity: 0.4;
+                text-shadow: none;
+            }
+        }
+
+        /* 3D PARALLAX LAYERS */
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        #layer1 {
+            background-image: url('https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=1600&q=80');
+            opacity: 0.12;
+        }
+
+        #layer2 {
+            background-image: url('https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1600&q=80');
+            opacity: 0.08;
+        }
+
+        /* FLOATING HOLOGRAM PANELS */
+        .panel {
+            position: absolute;
+            width: 220px;
+            height: 140px;
+            background: rgba(0,255,180,0.08);
+            border: 1px solid rgba(0,255,180,0.3);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* DRIFTING PARTICLES */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffcc;
+            border-radius: 50%;
+            opacity: 0.6;
+            filter: blur(1px);
+            animation: drift 10s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translateY(0px); opacity: 0.6; }
+            100% { transform: translateY(-200px); opacity: 0; }
+        }
+
+        /* GLOWING MOVING CIRCLE */
+        .circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(circle, #00ff88 0%, black 70%);
+            animation: pulse 4s ease-in-out infinite;
+            box-shadow: 0 0 30px 10px rgba(0, 255, 180, 0.6);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                filter: brightness(1);
+                box-shadow: 0 0 20px 5px rgba(0, 255, 180, 0.4);
+            }
+            50% {
+                transform: scale(1.2);
+                filter: brightness(0.7);
+                box-shadow: 0 0 40px 15px rgba(0, 255, 180, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                filter: brightness(1);
+                box-shadow: 0 0 20px 5px rgba(0, 255, 180, 0.4);
+            }
+        }
+
+        /* SHOCKWAVE RING */
+        .shockwave {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 255, 180, 0.7);
+            pointer-events: none;
+            animation: shock 2s ease-out infinite;
+        }
+
+        @keyframes shock {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+
+        /* HOLOGRAM BUTTON */
+        .holo-button {
+            position: absolute;
+            top: 80%;
+            left: 10%;
+            padding: 20px 40px;
+            border: 2px solid #00ffcc;
+            color: #00ffcc;
+            font-size: 22px;
+            border-radius: 10px;
+            text-shadow: 0 0 10px #00ffcc;
+            box-shadow: 0 0 20px #00ffcc inset;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+        }
+
+        .holo-button:hover {
+            box-shadow: 0 0 40px #00ffcc inset;
+            transform: scale(1.1);
+        }
+
+        /* WARNING ALERT */
+        #warning-alert {
+            position: fixed;
+            top: 45%;
+            width: 100%;
+            text-align: center;
+            font-size: 60px;
+            color: #ff4444;
+            opacity: 0;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px #ff0000;
+            z-index: 99999;
+            pointer-events: none;
+        }
+
+        @keyframes warnFlash {
+            0% { opacity: 0; transform: scale(0.8); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* TERMINAL CONSOLE */
+        #console {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,255,180,0.05);
+            border-top: 1px solid rgba(0,255,180,0.3);
+            padding: 10px;
+            color: #00ffcc;
+            font-family: monospace;
+            z-index: 9999;
+        }
+
+        #console-output {
+            height: 120px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        #console-input {
+            width: 100%;
+            background: black;
+            border: 1px solid #00ffcc;
+            color: #00ffcc;
+            padding: 8px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- START SYSTEM BUTTON -->
+    <div id="start-btn">START SYSTEM</div>
+
+    <!-- STARTUP BOOT SCREEN -->
+    <div id="boot-screen">
+        <div class="boot-text">INITIALIZING SYSTEM...</div>
+    </div>
+
+    <!-- SYSTEM ONLINE INTRO -->
+    <div id="system-online">SYSTEM ONLINE</div>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot"></div>
+
+    <!-- PARALLAX LAYERS -->
+    <div class="parallax-layer" id="layer1"></div>
+    <div class="parallax-layer" id="layer2"></div>
+
+    <!-- FLOATING PANELS -->
+    <div class="panel" style="top: 20%; left: 10%"></div>
+    <div class="panel" style="top: 60%; left: 70%"></div>
+
+    <!-- MOVING ELEMENTS -->
+    <div class="circle"></div>
+    <div class="shockwave"></div>
+
+    <!-- HOLOGRAM SOUND -->
+    <audio id="ui-beep" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+
+    <!-- AI VOICE -->
+    <audio id="ai-voice" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-changing-tab-206.wav"></audio>
+
+    <!-- WARNING ALERT -->
+    <div id="warning-alert">WARNING</div>
+
+    <!-- HOLOGRAM BUTTON -->
+    <div class="holo-button" onclick="playVoiceLine('Command executed.')">ACTIVATE</div>
+
+    <!-- TERMINAL CONSOLE -->
+    <div id="console">
+        <div id="console-output"></div>
+        <input id="console-input" placeholder="Enter command...">
+    </div>
+
+    <!-- DRIFTING PARTICLES -->
+    <script>
+        for (let i = 0; i < 50; i++) {
+            let p = document.createElement("div");
+            p.className = "particle";
+            p.style.left = Math.random() * window.innerWidth + "px";
+            p.style.top = Math.random() * window.innerHeight + "px";
+            p.style.animationDelay = Math.random() * 10 + "s";
+            document.body.appendChild(p);
+        }
+    </script>
+
+    <!-- ORIGINAL CONTENT -->
+    <h2 class="neon-flicker">Test</h2>
+    <p>Having made a website using AI, I will now try it on my own.</p>
+
+    <h1 class="neon-flicker">Here we go!</h1>
+
+    <p>Now I know what this does</p>
+
+    <button onclick="prompt('Click me!')">Click me!</button>
+
+    <!-- INTERACTION SCRIPT -->
+    <script>
+        const circle = document.querySelector(".circle");
+        const shock = document.querySelector(".shockwave");
+        const cursorDot = document.getElementById("cursor-dot");
+
+        let cx = 0, cy = 0;
+        let tx = 0, ty = 0;
+
+        document.addEventListener("mousemove", function(e) {
+            tx = e.pageX - 125;
+            ty = e.pageY - 125;
+
+            cursorDot.style.left = e.pageX + "px";
+            cursorDot.style.top = e.pageY + "px";
+
+            let x = e.clientX / window.innerWidth * 100;
+            let y = e.clientY / window.innerHeight * 100;
+            document.body.style.backgroundPosition = `${x}% ${y}%`;
+
+            shock.style.left = (e.pageX - 10) + "px";
+            shock.style.top = (e.pageY - 10) + "px";
+
+            document.getElementById("layer1").style.transform =
+                `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            document.getElementById("layer2").style.transform =
+                `translate(${x * -0.2}px, ${y * -0.2}px)`;
+        });
+
+        function animate() {
+            cx += (tx - cx) * 0.1;
+            cy += (ty - cy) * 0.1;
+
+            circle.style.left = cx + "px";
+            circle.style.top = cy + "px";
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        setTimeout(() => {
+            document.getElementById("boot-screen").style.display = "none";
+        }, 3000);
+
+        /* AI VOICE */
+        function playVoiceLine(text) {
+            const voice = document.getElementById("ai-voice");
+            if (window.audioUnlocked) {
+                voice.currentTime = 0;
+                voice.play();
+            }
+            console.log("AI VOICE:", text);
+        }
+
+        /* WARNING ALERT */
+        function triggerWarning() {
+            const w = document.getElementById("warning-alert");
+            w.style.animation = "warnFlash 1.5s ease-out";
+            setTimeout(() => w.style.animation = "", 1500);
+        }
+
+        /* TERMINAL CONSOLE */
+        const output = document.getElementById("console-output");
+        const input = document.getElementById("console-input");
+
+        input.addEventListener("keydown", e => {
+            if (e.key === "Enter") {
+                const cmd = input.value.trim();
+                if (!cmd) return;
+                output.innerHTML += "> " + cmd + "<br>";
+                output.scrollTop = output.scrollHeight;
+                input.value = "";
+
+                if (cmd === "alert") triggerWarning();
+                if (cmd === "status") playVoiceLine("All systems stable.");
+                if (cmd === "help") {
+                    output.innerHTML += "Commands: alert, status, help<br>";
+                    output.scrollTop = output.scrollHeight;
+                }
+            }
+        });
+
+        /* START SYSTEM SOUND UNLOCK */
+        document.getElementById("start-btn").addEventListener("click", async () => {
+            const beep = document.getElementById("ui-beep");
+            const voice = document.getElementById("ai-voice");
+
+            try {
+                await beep.play().catch(() => {});
+                beep.pause();
+                beep.currentTime = 0;
+
+                await voice.play().catch(() => {});
+                voice.pause();
+                voice.currentTime = 0;
+
+                window.audioUnlocked = true;
+                console.log("Audio unlocked.");
+
+                beep.play();
+                document.getElementById("start-btn").remove();
+            } catch (err) {
+                console.log("Audio unlock failed:", err);
+            }
+        }); 
+    
+    </script>
+    <button id="test">TEST SOUND</button>
+
+    <audio id="test-sound" src="mixkit-sci-fi-click-900.mp3"></audio>
+
+    <script>
+    document.getElementById("test").onclick = () => {
+        const a = document.getElementById("test-sound");
+        a.currentTime = 0;
+        a.play().then(() => console.log("Played")).catch(err => console.log(err));
+    };
+    </script>
+
+
+</body>
+</html>
