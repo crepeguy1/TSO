@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloaking Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0f0;
+        color: #0f0;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0f0;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0f0;
+        display: inline-block;
+        background: #001900;
+        width: 380px;
+    }
+
+    .phase {
+        font-size: 32px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #0f0;
+        letter-spacing: 4px;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #020;
+        border: 2px solid #0f0;
+        color: #0f0;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #040;
+        box-shadow: 0 0 15px #0f0;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🟩 CLOAKING SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The cloaking field is out of phase.</p>
+    <p>Cycle through the phase patterns until you match the target.</p>
+
+    <p><strong>Target Phase:</strong></p>
+    <div class="phase">▢ ▣ ▢ ▣ ▢</div>
+
+    <p><strong>Your Phase:</strong></p>
+    <div id="phase" class="phase">▢ ▢ ▢ ▢ ▢</div>
+
+    <button class="btn" onclick="shift()">Shift Phase</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let phases = [
+    "▢ ▢ ▢ ▢ ▢",
+    "▢ ▣ ▢ ▢ ▣",
+    "▢ ▣ ▢ ▣ ▢", // correct
+    "▣ ▢ ▣ ▢ ▣"
+];
+
+let index = 0;
+
+function shift() {
+    index++;
+    if (index >= phases.length) index = 0;
+
+    document.getElementById("phase").innerText = phases[index];
+
+    if (phases[index] === "▢ ▣ ▢ ▣ ▢") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Cloaking field synchronized! Stealth mode active.</span>";
+    } else {
+        document.getElementById("result").innerText = "Adjusting phase...";
+    }
+}
+
+localStorage.setItem("task_cloaking", "done");
+
+</script>
+
+</body>
+</html>

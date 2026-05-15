@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyperdrive Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #001010;
+        width: 380px;
+    }
+
+    .slider-container {
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    input[type=range] {
+        width: 100%;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>⚡ HYPERDRIVE SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The hyperdrive core is unstable.</p>
+    <p>Adjust all three stabilizers to the correct values:</p>
+
+    <p><strong>Target Settings:</strong></p>
+    <p>Power: 70 | Focus: 40 | Sync: 90</p>
+
+    <div class="slider-container">
+        <label>Power: <span id="pVal">0</span></label>
+        <input type="range" min="0" max="100" value="0" id="power" oninput="update()">
+    </div>
+
+    <div class="slider-container">
+        <label>Focus: <span id="fVal">0</span></label>
+        <input type="range" min="0" max="100" value="0" id="focus" oninput="update()">
+    </div>
+
+    <div class="slider-container">
+        <label>Sync: <span id="sVal">0</span></label>
+        <input type="range" min="0" max="100" value="0" id="sync" oninput="update()">
+    </div>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+function update() {
+    const p = document.getElementById("power").value;
+    const f = document.getElementById("focus").value;
+    const s = document.getElementById("sync").value;
+
+    document.getElementById("pVal").innerText = p;
+    document.getElementById("fVal").innerText = f;
+    document.getElementById("sVal").innerText = s;
+
+    if (p == 70 && f == 40 && s == 90) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Hyperdrive stabilized! Ready for jump.</span>";
+    } else {
+        document.getElementById("result").innerText = "Adjusting stabilizers...";
+    }
+}
+
+localStorage.setItem("task_hyperdrive", "done");
+</script>
+
+</body>
+</html>

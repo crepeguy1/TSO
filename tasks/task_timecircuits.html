@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Circuits Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0f0;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #ff3300;
+        text-shadow: 0 0 15px #ff3300;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 3px solid #ff3300;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #ff3300;
+        background: #1a0000;
+        display: inline-block;
+        width: 480px;
+    }
+
+    .label {
+        color: #ff3300;
+        font-size: 18px;
+        margin-top: 15px;
+        text-shadow: 0 0 10px #ff3300;
+    }
+
+    .display {
+        font-size: 28px;
+        margin: 10px 0 20px 0;
+        padding: 10px;
+        border: 2px solid #0f0;
+        border-radius: 6px;
+        background: #001100;
+        text-shadow: 0 0 10px #0f0;
+    }
+
+    .btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: #220000;
+        border: 2px solid #ff3300;
+        color: #ff3300;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+        font-family: 'Courier New', monospace;
+    }
+
+    .btn:hover {
+        background: #440000;
+        box-shadow: 0 0 15px #ff3300;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>⏱️ TIME CIRCUITS TASK</h1>
+
+<div class="panel">
+
+    <div class="label">DESTINATION TIME</div>
+    <div class="display">OCT 26 1985 01:21</div>
+
+    <div class="label">YOUR SETTING</div>
+    <div id="current" class="display">JAN 01 0000 00:00</div>
+
+    <button class="btn" onclick="cycleMonth()">Cycle Month</button>
+    <button class="btn" onclick="cycleDay()">Cycle Day</button>
+    <button class="btn" onclick="cycleYear()">Cycle Year</button>
+    <button class="btn" onclick="cycleHour()">Cycle Hour</button>
+    <button class="btn" onclick="cycleMinute()">Cycle Minute</button>
+
+    <p id="result"></p>
+
+    <div class="label">LAST TIME DEPARTED</div>
+    <div id="last" class="display">--- -- ---- --:--</div>
+
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+let monthIndex = 0;
+let day = 1;
+let year = 0;
+let hour = 0;
+let minute = 0;
+
+function updateDisplay() {
+    let formatted = `${months[monthIndex]} ${String(day).padStart(2,'0')} ${String(year).padStart(4,'0')} ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`;
+    document.getElementById("current").innerText = formatted;
+
+    if (formatted === "OCT 26 1985 01:21") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Time Circuits Activated — Temporal Coordinates Locked.</span>";
+        document.getElementById("last").innerText = formatted;
+    } else {
+        document.getElementById("result").innerText = "Adjusting temporal coordinates...";
+    }
+}
+
+function cycleMonth() {
+    monthIndex = (monthIndex + 1) % months.length;
+    updateDisplay();
+}
+
+function cycleDay() {
+    day++;
+    if (day > 31) day = 1;
+    updateDisplay();
+}
+
+function cycleYear() {
+    year++;
+    if (year > 9999) year = 0;
+    updateDisplay();
+}
+
+function cycleHour() {
+    hour++;
+    if (hour > 23) hour = 0;
+    updateDisplay();
+}
+
+function cycleMinute() {
+    minute++;
+    if (minute > 59) minute = 0;
+    updateDisplay();
+}
+
+localStorage.setItem("task_timecircuits", "done");
+</script>
+
+</body>
+</html>

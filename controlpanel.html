@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control Panel</title>
+
+<style>
+    body {
+        background: radial-gradient(circle at top, #333 0, #000 55%);
+        color: #0ff;
+        font-family: 'Courier New', monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 40px;
+    }
+
+    
+    h1 {
+        text-shadow: 0 0 10px #0ff;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+
+    .panel {
+        display: grid;
+        grid-template-columns: repeat(3, 150px);
+        gap: 20px;
+        padding: 20px;
+        background: #000;
+        border: 3px solid #ff3300;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #ff3300;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* subtle scanline overlay */
+    .panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.04),
+            rgba(255,255,255,0.04) 1px,
+            transparent 2px,
+            transparent 3px
+        );
+        pointer-events: none;
+        mix-blend-mode: soft-light;
+    }
+
+    .btn {
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+        user-select: none;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .btn:active {
+        transform: scale(0.97);
+    }
+
+    /* ACTIVE (ON) STATE */
+    .btn.active {
+        background: #0ff;
+        color: #000;
+        box-shadow: 0 0 25px #0ff;
+        border-color: #0ff;
+    }
+
+    .status {
+        margin-top: 30px;
+        padding: 15px;
+        width: 420px;
+        background: #000;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 15px #0ff;
+        font-size: 14px;
+    }
+
+    /* Blinking red alert */
+    .alert {
+        animation: blink 0.6s infinite;
+        border-color: red !important;
+        color: red !important;
+    }
+
+    @keyframes blink {
+        0% { background: #300; }
+        50% { background: #f00; color: #000; }
+        100% { background: #300; }
+    }
+
+    /* Flux malfunction pulse */
+    .malfunction {
+        animation: malfunctionPulse 0.5s infinite;
+        border-color: #ff0 !important;
+        color: #ff0 !important;
+    }
+
+    @keyframes malfunctionPulse {
+        0% { box-shadow: 0 0 5px #ff0; }
+        50% { box-shadow: 0 0 20px #ff0; background:#440; }
+        100% { box-shadow: 0 0 5px #ff0; }
+    }
+
+    /* small DeLorean-style gauge bar */
+    .gauge {
+        margin-top: 10px;
+        width: 100%;
+        height: 6px;
+        background: #222;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .gauge-fill {
+        width: 35%;
+        height: 100%;
+        background: linear-gradient(90deg, #0f0, #ff0, #f00);
+        box-shadow: 0 0 10px #f00;
+    }
+
+    #bootScreen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    text-shadow: 0 0 10px #0f0;
+    }
+
+    #bootText {
+        font-size: 22px;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeIn 1.5s forwards;
+    }
+
+    #bootBar {
+        width: 0%;
+        height: 6px;
+        background: #0f0;
+        box-shadow: 0 0 15px #0f0;
+        animation: loadBar 3s forwards 1.5s;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    @keyframes loadBar {
+        to { width: 80%; }
+    }
+
+    .fadeOut {
+        animation: fadeOut 1s forwards;
+    }
+
+    @keyframes fadeOut {
+        to { opacity: 0; visibility: hidden; }
+    }
+
+    .progress-container {
+        width: 420px;
+        height: 20px;
+        background: #222;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        margin-top: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #0ff, #ff0, #f00);
+        box-shadow: 0 0 20px #0ff;
+        transition: 0.3s;
+    }
+
+
+</style>
+
+</head>
+<body>
+
+<div id="bootScreen">
+<div id="bootText">INITIALIZING SYSTEM...</div>
+<div id="bootBar"></div>
+</div>
+
+<h1>⚡ SYSTEM CONTROL PANEL ⚡</h1>
+
+<div class="panel">
+
+    <div class="btn" data-task="tasks/task_engines.html" onclick="activate('Engines', this)">Engines</div>
+    <div class="btn" data-task="tasks/task_shields.html" onclick="activate('Shields', this)">Shields</div>
+    <div class="btn" data-task="tasks/task_weapons.html" onclick="activate('Weapons', this)">Weapons</div>
+
+    <div class="btn" data-task="tasks/task_lights.html" onclick="activate('Lights', this)">Lights</div>
+    <div class="btn" onclick="window.location='ctrlpanel.html'">Go to Page</div>
+    <div class="btn" data-task="tasks/task_aicore.html" onclick="activate('AI Core', this)">AI Core</div>
+
+    <div class="btn" data-task="tasks/task_sensors.html" onclick="activate('Sensors', this)">Sensors</div>
+    <div class="btn" data-task="tasks/task_comms.html" onclick="activate('Communications', this)">Comms</div>
+    <div class="btn" data-task="tasks/task_hyperdrive.html" onclick="activate('Hyperdrive', this)">Hyperdrive</div>
+
+    <div class="btn" data-task="tasks/task_lifesupport.html" onclick="activate('Life Support', this)">Life Support</div>
+    <div class="btn" data-task="tasks/task_navigation.html" onclick="activate('Navigation', this)">Navigation</div>
+    <div class="btn" data-task="tasks/task_cloaking.html" onclick="activate('Cloaking', this)">Cloaking</div>
+
+    <div class="btn" data-task="tasks/task_cargobay.html" onclick="activate('Cargo Bay', this)">Cargo Bay</div>
+    <div class="btn" data-task="tasks/task_tractorbeam.html" onclick="activate('Tractor Beam', this)">Tractor Beam</div>
+    <div class="btn" data-task="tasks/task_temporal.html" onclick="activate('Temporal Displacement', this)">Temporal Displacement</div>
+
+    <div class="btn" id="fluxBtn" data-task="tasks/task_flux.html" onclick="activateFlux('Flux Capacitor', this)">Flux Capacitor</div>
+    <div class="btn" data-task="tasks/task_quantum.html" onclick="activate('Quantum Drive', this)">Quantum Drive</div>
+    <div class="btn" data-task="tasks/task_transporter.html" onclick="activate('Transporter', this)">Transporter</div>
+
+    <!-- Time Circuits button -->
+    <div class="btn" data-task="tasks/task_timecircuits.html" onclick="activate('Time Circuits', this)">Time Circuits</div>
+    <div class="btn" data-task="tasks/task_mrfusion.html" onclick="activate('Mr. Fusion', this)">Mr. Fusion</div>
+    <div class="btn" data-task="tasks/task_temporalmeter.html" onclick="activate('Temporal Meter', this)">Temporal Meter</div>
+
+    <div class="btn" data-task="tasks/task_fluxupgrade.html" onclick="activate('Flux Upgrade', this)">Flux Upgrade</div>    
+    <div class="btn" data-task="tasks/task_deloreanui.html" onclick="activate('DeLorean UI', this)">DeLorean UI</div>
+</div>
+
+<div class="status" id="statusBox">
+    SYSTEM STATUS: Waiting for input...
+    <div class="gauge">
+        <div class="gauge-fill" id="gaugeFill"></div>
+    </div>
+</div>
+
+<div class="progress-container">
+    <div id="progressFill" class="progress-fill"></div>
+</div>
+
+
+<div class="btn" onclick="window.location='index.html'">Back to Main Page</div>    
+
+<!-- simple sounds -->
+<audio id="clickSound">
+    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+</audio>
+<audio id="alertSound">
+    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+</audio>
+
+<script>
+
+
+// Load progress
+let completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
+
+// Update bar on load
+function updateProgressBar() {
+    const totalTasks = 4; // update this if you add more tasks
+    const percent = (completedTasks.length / totalTasks) * 100;
+    document.getElementById("progressFill").style.width = percent + "%";
+}
+
+updateProgressBar();
+
+// play short UI click
+function playClick() {
+    const s = document.getElementById("clickSound");
+    s.currentTime = 0;
+    s.play().catch(() => {});
+}
+
+// play alert sound
+function playAlert() {
+    const s = document.getElementById("alertSound");
+    s.currentTime = 0;
+    s.play().catch(() => {});
+}
+
+// Standard system activation
+function activate(systemName, element) {
+    playClick();
+    element.classList.toggle("active");
+
+    const isActive = element.classList.contains("active");
+
+    document.getElementById("statusBox").innerText =
+        "SYSTEM STATUS: " + systemName + (isActive ? " activated" : " deactivated");
+
+    // keep gauge doing something fun
+    wiggleGauge(isActive);
+}
+
+// Flux Capacitor special behavior + malfunction mode
+let fluxMalfunction = false;
+
+function activateFlux(systemName, element) {
+    playClick();
+
+    // 25% chance to toggle malfunction when clicked
+    if (!fluxMalfunction && Math.random() < 0.25) {
+        fluxMalfunction = true;
+        element.classList.add("malfunction");
+        document.getElementById("statusBox").innerText =
+            "SYSTEM STATUS: FLUX CAPACITOR MALFUNCTION — direct access to Flux task only.";
+        // go straight to flux task on click while malfunctioning
+        element.onclick = function () {
+            window.location = element.getAttribute("data-task");
+        };
+        return;
+    }
+
+    if (fluxMalfunction) {
+        // already malfunctioning: always go to flux task
+        window.location = element.getAttribute("data-task");
+        return;
+    }
+
+    // normal behavior
+    element.classList.toggle("active");
+    const isActive = element.classList.contains("active");
+
+    if (isActive) {
+        document.getElementById("statusBox").innerText =
+            "SYSTEM STATUS: Flux Capacitor activated. Choose a task.";
+    } else {
+        document.getElementById("statusBox").innerText =
+            "SYSTEM STATUS: Flux Capacitor deactivated.";
+    }
+
+    wiggleGauge(isActive);
+}
+
+// gauge animation
+function wiggleGauge(on) {
+    const fill = document.getElementById("gaugeFill");
+    if (on) {
+        fill.style.width = (30 + Math.random() * 60) + "%";
+    } else {
+        fill.style.width = "35%";
+    }
+}
+
+// RANDOM ALERT SYSTEM
+// Pick a random button to blink red
+function triggerRandomAlert() {
+    const buttons = document.querySelectorAll(".btn[data-task]");
+    if (!buttons.length) return;
+
+    const randomBtn = buttons[Math.floor(Math.random() * buttons.length)];
+
+    randomBtn.classList.add("alert");
+    playAlert();
+
+    function handleAlert() {
+        randomBtn.classList.remove("alert");
+        randomBtn.removeEventListener("click", handleAlert);
+
+        const taskPage = randomBtn.getAttribute("data-task");
+        window.location = taskPage;
+    }
+
+    randomBtn.addEventListener("click", handleAlert);
+}
+
+// Start alerts at random intervals (5–15 seconds)
+setInterval(() => {
+    if (!document.querySelector(".alert")) {
+        triggerRandomAlert();
+    }
+}, Math.random() * 10000 + 5000);
+
+// Startup Boot Sequence
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        document.getElementById("bootScreen").classList.add("fadeOut");
+    }, 3500);
+});
+
+</script>
+
+</body>
+</html>

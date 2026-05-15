@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensors Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #001010;
+        width: 380px;
+    }
+
+    .wave {
+        font-size: 28px;
+        letter-spacing: 3px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>📡 SENSOR ARRAY TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The sensor waveform is distorted.</p>
+    <p>Adjust the frequency until the waveform matches the target.</p>
+
+    <p><strong>Target Waveform:</strong></p>
+    <div class="wave">~ ^ ~ ^ ~ ^</div>
+
+    <p><strong>Your Waveform:</strong></p>
+    <div id="wave" class="wave">~ ~ ~ ~ ~ ~</div>
+
+    <button class="btn" onclick="shift()">Adjust Frequency</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let patterns = [
+    "~ ~ ~ ~ ~ ~",
+    "~ ^ ~ ~ ^ ~",
+    "~ ^ ~ ^ ~ ~",
+    "~ ^ ~ ^ ~ ^" // correct
+];
+
+let index = 0;
+
+function shift() {
+    index++;
+    if (index >= patterns.length) index = 0;
+
+    document.getElementById("wave").innerText = patterns[index];
+
+    if (patterns[index] === "~ ^ ~ ^ ~ ^") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Waveform aligned! Sensors fully operational.</span>";
+    } else {
+        document.getElementById("result").innerText = "Adjusting...";
+    }
+}
+
+localStorage.setItem("task_sensors", "done");
+</script>
+
+</body>
+</html>

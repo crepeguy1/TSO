@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flux Capacitor Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #ffcc00;
+        text-shadow: 0 0 15px #ffcc00;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 3px solid #ffcc00;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #ffcc00;
+        background: #1a1a00;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .prongs {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        font-size: 40px;
+        text-shadow: 0 0 10px #ffcc00;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #332200;
+        border: 2px solid #ffcc00;
+        color: #ffcc00;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #554400;
+        box-shadow: 0 0 15px #ffcc00;
+    }
+
+    .readout {
+        margin-top: 20px;
+        font-size: 24px;
+        color: #ffcc00;
+        text-shadow: 0 0 10px #ffcc00;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>⚡ FLUX CAPACITOR STABILIZATION</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The flux capacitor is fluctuating.</p>
+    <p>Stabilize the energy flow to exactly <strong>1.21 GW</strong>.</p>
+
+    <div class="prongs">
+        <span id="p1">▲</span>
+        <span id="p2">▲</span>
+        <span id="p3">▲</span>
+    </div>
+
+    <button class="btn" onclick="rotate(1)">Adjust Prong 1</button>
+    <button class="btn" onclick="rotate(2)">Adjust Prong 2</button>
+    <button class="btn" onclick="rotate(3)">Adjust Prong 3</button>
+
+    <div class="readout">
+        Flux Output: <span id="flux">0.00</span> GW
+    </div>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let symbols = ["▲", "●", "◆"];
+let nodes = [0, 0, 0];
+
+function rotate(n) {
+    nodes[n - 1]++;
+
+    if (nodes[n - 1] >= symbols.length) {
+        nodes[n - 1] = 0;
+    }
+
+    document.getElementById("p" + n).innerText = symbols[nodes[n - 1]];
+
+    updateFlux();
+}
+
+function updateFlux() {
+    // Fun fictional formula
+    let fluxValue = (nodes[0] * 0.4) + (nodes[1] * 0.5) + (nodes[2] * 0.31);
+
+    fluxValue = fluxValue.toFixed(2);
+
+    document.getElementById("flux").innerText = fluxValue;
+
+    if (fluxValue == "1.21") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Great Scott! Flux capacitor stabilized!</span>";
+    } else {
+        document.getElementById("result").innerText = "Flux levels adjusting...";
+    }
+}
+
+localStorage.setItem("task_flux", "done");
+</script>
+
+</body>
+</html>

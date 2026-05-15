@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr. Fusion Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #ff0;
+        text-shadow: 0 0 15px #ff0;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 3px solid #ff0;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #ff0;
+        background: #111;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .item {
+        font-size: 26px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #220;
+        border: 2px solid #ff0;
+        color: #ff0;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #440;
+        box-shadow: 0 0 15px #ff0;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>♻️ MR. FUSION ENERGY TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> Mr. Fusion needs clean, harmless fuel items.</p>
+    <p>Sort the items until you find the correct energy source.</p>
+
+    <div id="item" class="item">Banana Peel</div>
+
+    <button class="btn" onclick="cycle()">Next Item</button>
+    <button class="btn" onclick="insert()">Insert Into Mr. Fusion</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let items = [
+    "Banana Peel",
+    "Soda Can",
+    "Paper Cup",
+    "Plastic Fork",
+    "Coffee Grounds", // correct
+    "Cardboard Scrap"
+];
+
+let index = 0;
+
+function cycle() {
+    index++;
+    if (index >= items.length) index = 0;
+    document.getElementById("item").innerText = items[index];
+}
+
+function insert() {
+    if (items[index] === "Coffee Grounds") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Mr. Fusion Charged! Energy levels stable.</span>";
+    } else {
+        document.getElementById("result").innerText =
+            "Incorrect fuel item. Try another.";
+    }
+}
+
+localStorage.setItem("task_mrfusion", "done");
+</script>
+
+</body>
+</html>

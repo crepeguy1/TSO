@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tractor Beam Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #0ff;
+        background: #001010;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .vector {
+        font-size: 32px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #0ff;
+        letter-spacing: 4px;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🌀 TRACTOR BEAM SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> Tractor beam cannot lock onto the target.</p>
+    <p>Adjust the targeting vector until it matches the required pattern.</p>
+
+    <p><strong>Target Vector:</strong></p>
+    <div class="vector">⇑ ⇐ ⇓</div>
+
+    <p><strong>Your Vector:</strong></p>
+    <div id="v1" class="vector">⇑</div>
+    <div id="v2" class="vector">⇑</div>
+    <div id="v3" class="vector">⇑</div>
+
+    <button class="btn" onclick="rotate(1)">Rotate Vector 1</button>
+    <button class="btn" onclick="rotate(2)">Rotate Vector 2</button>
+    <button class="btn" onclick="rotate(3)">Rotate Vector 3</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let arrows = ["⇑", "⇒", "⇓", "⇐"];
+let vec = [0, 0, 0];
+
+function rotate(n) {
+    vec[n - 1]++;
+
+    if (vec[n - 1] >= arrows.length) {
+        vec[n - 1] = 0;
+    }
+
+    document.getElementById("v" + n).innerText = arrows[vec[n - 1]];
+
+    checkWin();
+}
+
+function checkWin() {
+    if (
+        arrows[vec[0]] === "⇑" &&
+        arrows[vec[1]] === "⇐" &&
+        arrows[vec[2]] === "⇓"
+    ) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Target locked! Tractor beam engaged.</span>";
+    } else {
+        document.getElementById("result").innerText = "Adjusting targeting vector...";
+    }
+}
+
+localStorage.setItem("task_tractorbeam", "done");
+</script>
+
+</body>
+</html>

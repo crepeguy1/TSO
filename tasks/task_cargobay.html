@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cargo Bay Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #0ff;
+        background: #001010;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .crate {
+        font-size: 32px;
+        margin: 15px 0;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>📦 CARGO BAY SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> Cargo crates are mislabeled.</p>
+    <p>Cycle each crate ID until they match the manifest.</p>
+
+    <p><strong>Target Manifest:</strong></p>
+    <div class="crate">A‑17 | C‑04 | B‑22</div>
+
+    <p><strong>Your Crates:</strong></p>
+    <div id="c1" class="crate">A‑00</div>
+    <div id="c2" class="crate">A‑00</div>
+    <div id="c3" class="crate">A‑00</div>
+
+    <button class="btn" onclick="cycle(1)">Cycle Crate 1</button>
+    <button class="btn" onclick="cycle(2)">Cycle Crate 2</button>
+    <button class="btn" onclick="cycle(3)">Cycle Crate 3</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let crateSets = [
+    ["A‑00", "A‑17", "A‑42"],
+    ["A‑00", "C‑04", "D‑19"],
+    ["A‑00", "B‑22", "F‑09"]
+];
+
+let indexes = [0, 0, 0];
+
+function cycle(n) {
+    indexes[n - 1]++;
+
+    if (indexes[n - 1] >= crateSets[n - 1].length) {
+        indexes[n - 1] = 0;
+    }
+
+    document.getElementById("c" + n).innerText = crateSets[n - 1][indexes[n - 1]];
+
+    checkWin();
+}
+
+function checkWin() {
+    if (
+        crateSets[0][indexes[0]] === "A‑17" &&
+        crateSets[1][indexes[1]] === "C‑04" &&
+        crateSets[2][indexes[2]] === "B‑22"
+    ) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Manifest matched! Cargo secured.</span>";
+    } else {
+        document.getElementById("result").innerText = "Sorting crates...";
+    }
+}
+
+localStorage.setItem("task_cargobay", "done");
+
+</script>
+
+</body>
+</html>

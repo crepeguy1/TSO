@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #001010;
+        width: 380px;
+    }
+
+    .compass {
+        font-size: 40px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🧭 NAVIGATION SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The ship has drifted off course.</p>
+    <p>Rotate the ship to match the target heading.</p>
+
+    <p><strong>Target Heading:</strong> 270° (West)</p>
+
+    <div id="heading" class="compass">0°</div>
+
+    <button class="btn" onclick="turn(10)">Turn +10°</button>
+    <button class="btn" onclick="turn(25)">Turn +25°</button>
+    <button class="btn" onclick="turn(-10)">Turn -10°</button>
+    <button class="btn" onclick="turn(-25)">Turn -25°</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let angle = 0;
+
+function turn(amount) {
+    angle += amount;
+
+    // Keep angle between 0–359
+    if (angle < 0) angle += 360;
+    if (angle >= 360) angle -= 360;
+
+    document.getElementById("heading").innerText = angle + "°";
+
+    const result = document.getElementById("result");
+
+    if (angle === 270) {
+        result.innerHTML = "<span class='success'>Course aligned! Navigation restored.</span>";
+    } else {
+        result.innerText = "Current heading: " + angle + "°";
+    }
+}
+
+localStorage.setItem("task_navigation", "done");
+</script>
+
+</body>
+</html>

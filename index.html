@@ -419,6 +419,8 @@
 
     <button onclick="prompt('Click me!')">Click me!</button>
 
+    <!--for opening page-->
+    <button onclick="loadNewPage()">Control Panel</button>
     <!-- INTERACTION SCRIPT -->
     <script>
         const circle = document.querySelector(".circle");
@@ -447,6 +449,12 @@
             document.getElementById("layer2").style.transform =
                 `translate(${x * -0.2}px, ${y * -0.2}px)`;
         });
+           
+        function loadNewPage() {
+            // Change the current page to the new URL
+            window.location.href = "controlpanel.html";
+        }
+    
 
         function animate() {
             cx += (tx - cx) * 0.1;

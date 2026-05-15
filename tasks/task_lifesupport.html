@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Support Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #001010;
+        width: 380px;
+    }
+
+    .slider-container {
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    input[type=range] {
+        width: 100%;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🌬️ LIFE SUPPORT SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> Atmospheric balance is unstable.</p>
+    <p>Adjust the gas mixture to the correct safe levels:</p>
+
+    <p><strong>Target Levels:</strong></p>
+    <p>Oxygen: 21% | Nitrogen: 78% | CO₂: 1%</p>
+
+    <div class="slider-container">
+        <label>Oxygen: <span id="oVal">0</span>%</label>
+        <input type="range" min="0" max="100" value="0" id="oxygen" oninput="update()">
+    </div>
+
+    <div class="slider-container">
+        <label>Nitrogen: <span id="nVal">0</span>%</label>
+        <input type="range" min="0" max="100" value="0" id="nitrogen" oninput="update()">
+    </div>
+
+    <div class="slider-container">
+        <label>CO₂: <span id="cVal">0</span>%</label>
+        <input type="range" min="0" max="100" value="0" id="co2" oninput="update()">
+    </div>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+function update() {
+    const o = document.getElementById("oxygen").value;
+    const n = document.getElementById("nitrogen").value;
+    const c = document.getElementById("co2").value;
+
+    document.getElementById("oVal").innerText = o;
+    document.getElementById("nVal").innerText = n;
+    document.getElementById("cVal").innerText = c;
+
+    if (o == 21 && n == 78 && c == 1) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Atmosphere stabilized! Life support is fully operational.</span>";
+    } else {
+        document.getElementById("result").innerText = "Balancing atmosphere...";
+    }
+}
+
+localStorage.setItem("task_lifesupport", "done");
+</script>
+
+</body>
+</html>

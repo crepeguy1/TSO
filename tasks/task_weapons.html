@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weapons Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 10px #f00;
+        color: #f44;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #f00;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #f00;
+        display: inline-block;
+        background: #1a0000;
+        width: 350px;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        background: #200;
+        border: 2px solid #f00;
+        color: #f44;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #400;
+        box-shadow: 0 0 15px #f00;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+
+    .dial {
+        font-size: 40px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #f00;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🔫 WEAPONS SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The weapon emitters are misaligned.</p>
+    <p>Rotate the calibration dial to match the target angle:</p>
+
+    <h2>Target Angle: <strong>135°</strong></h2>
+
+    <div id="dial" class="dial">0°</div>
+
+    <button class="btn" onclick="rotate(15)">Rotate +15°</button>
+    <button class="btn" onclick="rotate(30)">Rotate +30°</button>
+    <button class="btn" onclick="rotate(-15)">Rotate -15°</button>
+    <button class="btn" onclick="rotate(-30)">Rotate -30°</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let angle = 0;
+
+function rotate(amount) {
+    angle += amount;
+
+    // Keep angle between 0–360
+    if (angle < 0) angle += 360;
+    if (angle >= 360) angle -= 360;
+
+    document.getElementById("dial").innerText = angle + "°";
+
+    const result = document.getElementById("result");
+
+    if (angle === 135) {
+        result.innerHTML = "<span class='success'>Emitters aligned! Weapons calibrated.</span>";
+    } else {
+        result.innerHTML = "Current angle: " + angle + "°";
+    }
+}
+
+localStorage.setItem("task_weapons", "done");
+</script>
+
+</body>
+</html>

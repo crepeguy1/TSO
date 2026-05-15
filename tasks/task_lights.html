@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lights Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 10px #ff0;
+        color: #ff0;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 80px);
+        gap: 15px;
+        margin: 30px auto;
+    }
+
+    .light {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background: #330;
+        border: 2px solid #ff0;
+        cursor: pointer;
+        box-shadow: 0 0 10px #660;
+        transition: 0.2s;
+    }
+
+    .on {
+        background: #ff0;
+        box-shadow: 0 0 20px #ff0;
+    }
+
+    .panel {
+        margin-top: 20px;
+        padding: 20px;
+        border: 2px solid #ff0;
+        border-radius: 10px;
+        background: #1a1a00;
+        box-shadow: 0 0 20px #ff0;
+        display: inline-block;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        background: #222200;
+        border: 2px solid #ff0;
+        color: #ff0;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #444400;
+        box-shadow: 0 0 15px #ff0;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>💡 LIGHTS SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The lighting grid is malfunctioning.</p>
+    <p>Turn <strong>all lights ON</strong> to restore illumination.</p>
+
+    <div class="grid">
+        <div class="light" onclick="toggle(0)"></div>
+        <div class="light" onclick="toggle(1)"></div>
+        <div class="light" onclick="toggle(2)"></div>
+        <div class="light" onclick="toggle(3)"></div>
+        <div class="light" onclick="toggle(4)"></div>
+        <div class="light" onclick="toggle(5)"></div>
+        <div class="light" onclick="toggle(6)"></div>
+        <div class="light" onclick="toggle(7)"></div>
+        <div class="light" onclick="toggle(8)"></div>
+    </div>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let lights = [0,0,0,0,0,0,0,0,0];
+
+function toggle(i) {
+    // Toggle clicked light
+    lights[i] = 1 - lights[i];
+
+    // Toggle neighbors (simple version)
+    if (i % 3 !== 0) lights[i - 1] = 1 - lights[i - 1]; // left
+    if (i % 3 !== 2) lights[i + 1] = 1 - lights[i + 1]; // right
+    if (i > 2) lights[i - 3] = 1 - lights[i - 3];       // up
+    if (i < 6) lights[i + 3] = 1 - lights[i + 3];       // down
+
+    updateGrid();
+}
+
+function updateGrid() {
+    const divs = document.querySelectorAll(".light");
+
+    for (let i = 0; i < 9; i++) {
+        if (lights[i] === 1) {
+            divs[i].classList.add("on");
+        } else {
+            divs[i].classList.remove("on");
+        }
+    }
+
+    checkWin();
+}
+
+function checkWin() {
+    if (lights.every(v => v === 1)) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Lighting grid restored! All systems normal.</span>";
+    }
+}
+
+localStorage.setItem("task_lights", "done");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Core Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #001414;
+        width: 380px;
+    }
+
+    .sequence {
+        font-size: 22px;
+        margin: 20px 0;
+        letter-spacing: 4px;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+
+    input {
+        margin-top: 15px;
+        padding: 10px;
+        width: 200px;
+        border-radius: 6px;
+        border: 2px solid #0ff;
+        background: #000;
+        color: #0ff;
+        text-align: center;
+        font-size: 18px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🤖 AI CORE SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The AI Core’s logic sequence is corrupted.</p>
+    <p>Analyze the pattern and enter the missing number.</p>
+
+    <div class="sequence">
+        2, 4, 8, 16, <strong>?</strong>, 64
+    </div>
+
+    <input id="answer" placeholder="Enter number">
+
+    <button class="btn" onclick="check()">Submit</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+localStorage.setItem("task_aicore", "done");
+
+function check() {
+    const input = document.getElementById("answer").value;
+    const result = document.getElementById("result");
+
+    if (input == "32") {
+        result.innerHTML = "<span class='success'>Logic restored! AI Core is stable.</span>";
+    } else {
+        result.innerHTML = "Incorrect. Analyze the pattern and try again.";
+    }
+}
+</script>
+
+</body>
+</html>

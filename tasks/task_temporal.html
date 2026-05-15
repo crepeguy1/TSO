@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temporal Displacement Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #ff00ff;
+        text-shadow: 0 0 15px #ff00ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #ff00ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #ff00ff;
+        background: #120012;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .sequence {
+        font-size: 32px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #ff00ff;
+        letter-spacing: 4px;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #220022;
+        border: 2px solid #ff00ff;
+        color: #ff99ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #440044;
+        box-shadow: 0 0 15px #ff00ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>⏳ TEMPORAL DISPLACEMENT TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The timeline is unstable.</p>
+    <p>Cycle through the temporal sequence until it matches the target.</p>
+
+    <p><strong>Target Timeline:</strong></p>
+    <div class="sequence">⌺ ⌼ ⌺ ⌼</div>
+
+    <p><strong>Your Timeline:</strong></p>
+    <div id="timeline" class="sequence">⌺ ⌺ ⌺ ⌺</div>
+
+    <button class="btn" onclick="shift()">Shift Timeline</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let patterns = [
+    "⌺ ⌺ ⌺ ⌺",
+    "⌺ ⌼ ⌺ ⌺",
+    "⌺ ⌼ ⌺ ⌼", // correct
+    "⌼ ⌺ ⌼ ⌺"
+];
+
+let index = 0;
+
+function shift() {
+    index++;
+    if (index >= patterns.length) index = 0;
+
+    document.getElementById("timeline").innerText = patterns[index];
+
+    if (patterns[index] === "⌺ ⌼ ⌺ ⌼") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Temporal field stabilized! Timeline restored.</span>";
+    } else {
+        document.getElementById("result").innerText = "Shifting temporal phase...";
+    }
+}
+
+localStorage.setItem("task_temporal", "done");
+</script>
+
+</body>
+</html>

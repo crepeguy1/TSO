@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flux Capacitor Upgrade</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #0ff;
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 3px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #0ff;
+        background: #111;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .flux {
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+        border: 4px solid #0ff;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 0 20px #0ff;
+    }
+
+    .arm {
+        position: absolute;
+        width: 6px;
+        height: 90px;
+        background: #f00;
+        left: 50%;
+        transform-origin: bottom;
+        box-shadow: 0 0 15px #f00;
+    }
+
+    #arm1 { transform: translateX(-50%) rotate(0deg); bottom: 10px; }
+    #arm2 { transform: translateX(-50%) rotate(120deg); bottom: 10px; }
+    #arm3 { transform: translateX(-50%) rotate(240deg); bottom: 10px; }
+
+    .charge-bar-bg {
+        width: 100%;
+        height: 25px;
+        background: #222;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #0ff;
+        margin-top: 20px;
+    }
+
+    .charge-fill {
+        height: 100%;
+        width: 5%;
+        background: linear-gradient(90deg, #0ff, #ff0, #f00);
+        box-shadow: 0 0 15px #0ff;
+        transition: 0.2s;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>⚡ FLUX CAPACITOR UPGRADE</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> Charge the Flux Capacitor to 88%.</p>
+
+    <div class="flux">
+        <div id="arm1" class="arm"></div>
+        <div id="arm2" class="arm"></div>
+        <div id="arm3" class="arm"></div>
+    </div>
+
+    <div class="charge-bar-bg">
+        <div id="fill" class="charge-fill"></div>
+    </div>
+
+    <button class="btn" onclick="charge()">Increase Charge</button>
+    <button class="btn" onclick="drain()">Decrease Charge</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let chargeLevel = 5;
+let spin = 0;
+
+function update() {
+    document.getElementById("fill").style.width = chargeLevel + "%";
+
+    spin += 20;
+    document.getElementById("arm1").style.transform = `translateX(-50%) rotate(${spin}deg)`;
+    document.getElementById("arm2").style.transform = `translateX(-50%) rotate(${spin + 120}deg)`;
+    document.getElementById("arm3").style.transform = `translateX(-50%) rotate(${spin + 240}deg)`;
+
+    if (chargeLevel === 88) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Flux Capacitor Fully Charged!</span>";
+    } else {
+        document.getElementById("result").innerText =
+            "Charging flux energy...";
+    }
+}
+
+function charge() {
+    if (chargeLevel < 100) chargeLevel += 4;
+    update();
+}
+
+function drain() {
+    if (chargeLevel > 0) chargeLevel -= 4;
+    update();
+}
+
+localStorage.setItem("task_fluxupgrade", "done");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shields Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #020b0b;
+        width: 350px;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+
+    .bar {
+        width: 100%;
+        height: 20px;
+        background: #033;
+        border: 2px solid #0ff;
+        border-radius: 5px;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .fill {
+        height: 100%;
+        width: 0%;
+        background: #0ff;
+        transition: width 0.3s;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🛡️ SHIELDS SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The shield generator is unstable.</p>
+    <p>Charge the shield to exactly <strong>75%</strong> to stabilize it.</p>
+
+    <div class="bar">
+        <div id="fill" class="fill"></div>
+    </div>
+
+    <button class="btn" onclick="adjust(10)">+10%</button>
+    <button class="btn" onclick="adjust(5)">+5%</button>
+    <button class="btn" onclick="adjust(-5)">-5%</button>
+    <button class="btn" onclick="adjust(-10)">-10%</button>
+
+    <p id="status"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let charge = 0;
+
+function adjust(amount) {
+    charge += amount;
+
+    if (charge < 0) charge = 0;
+    if (charge > 100) charge = 100;
+
+    document.getElementById("fill").style.width = charge + "%";
+
+    const status = document.getElementById("status");
+
+    if (charge === 75) {
+        status.innerHTML = "<span class='success'>Shield stabilized! Good work.</span>";
+    } else {
+        status.innerHTML = "Current charge: " + charge + "%";
+    }
+}
+
+localStorage.setItem("task_shields", "done");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transporter Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #0ff;
+        background: #001010;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .ring {
+        font-size: 40px;
+        margin: 15px 0;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🛸 TRANSPORTER SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The transporter pattern buffer is scrambled.</p>
+    <p>Align all three rings to match the target sequence.</p>
+
+    <p><strong>Target Pattern:</strong></p>
+    <div class="ring">◎ ◉ ◎</div>
+
+    <p><strong>Your Pattern:</strong></p>
+    <div id="r1" class="ring">◎</div>
+    <div id="r2" class="ring">◎</div>
+    <div id="r3" class="ring">◎</div>
+
+    <button class="btn" onclick="rotate(1)">Rotate Ring 1</button>
+    <button class="btn" onclick="rotate(2)">Rotate Ring 2</button>
+    <button class="btn" onclick="rotate(3)">Rotate Ring 3</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let symbols = ["◎", "◉", "◍"];
+let rings = [0, 0, 0];
+
+function rotate(n) {
+    rings[n - 1]++;
+
+    if (rings[n - 1] >= symbols.length) {
+        rings[n - 1] = 0;
+    }
+
+    document.getElementById("r" + n).innerText = symbols[rings[n - 1]];
+
+    checkWin();
+}
+
+function checkWin() {
+    if (
+        symbols[rings[0]] === "◎" &&
+        symbols[rings[1]] === "◉" &&
+        symbols[rings[2]] === "◎"
+    ) {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Pattern locked! Transporter ready to energize.</span>";
+    } else {
+        document.getElementById("result").innerText = "Calibrating rings...";
+    }
+}
+
+localStorage.setItem("task_transporter", "done");
+</script>
+
+</body>
+</html>

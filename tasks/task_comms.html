@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communications Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 15px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #0ff;
+        background: #001010;
+        display: inline-block;
+        width: 420px;
+    }
+
+    .freq {
+        font-size: 32px;
+        margin: 20px 0;
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+        font-size: 20px;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>📡 COMMUNICATIONS SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> Long‑range communications are scrambled.</p>
+    <p>Cycle through the frequencies until you match the target signal.</p>
+
+    <p><strong>Target Frequency:</strong></p>
+    <div class="freq">142.7 MHz</div>
+
+    <p><strong>Your Frequency:</strong></p>
+    <div id="freq" class="freq">100.0 MHz</div>
+
+    <button class="btn" onclick="tune()">Tune Frequency</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='../controlpanel.html'">Return to Control Panel</button>
+
+<script>
+let freqs = [
+    "100.0 MHz",
+    "121.4 MHz",
+    "142.7 MHz", // correct
+    "160.3 MHz"
+];
+
+let index = 0;
+
+function tune() {
+    index++;
+    if (index >= freqs.length) index = 0;
+
+    document.getElementById("freq").innerText = freqs[index];
+
+    if (freqs[index] === "142.7 MHz") {
+        document.getElementById("result").innerHTML =
+            "<span class='success'>Signal locked! Communications restored.</span>";
+    } else {
+        document.getElementById("result").innerText = "Scanning frequencies...";
+    }
+}
+
+localStorage.setItem("task_comms", "done");
+</script>
+
+</body>
+</html>

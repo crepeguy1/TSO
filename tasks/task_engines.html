@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engine Task</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        text-shadow: 0 0 10px #0ff;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff;
+        display: inline-block;
+        background: #020b0b;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .success {
+        color: #0f0;
+        font-weight: bold;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0f0;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>🚀 ENGINE SYSTEM TASK</h1>
+
+<div class="panel">
+    <p><strong>Mission:</strong> The main engine reactor is overheating.</p>
+    <p>You must stabilize the coolant flow by selecting the correct valve pressure.</p>
+
+    <p><strong>Choose the correct pressure:</strong></p>
+
+    <button class="btn" onclick="checkAnswer(20)">20%</button>
+    <button class="btn" onclick="checkAnswer(40)">40%</button>
+    <button class="btn" onclick="checkAnswer(60)">60%</button>
+    <button class="btn" onclick="checkAnswer(80)">80%</button>
+
+    <p id="result"></p>
+</div>
+
+<button class="btn" onclick="window.location='controlpanel.html'">Return to Control Panel</button>
+
+<script>
+function checkAnswer(value) {
+    const result = document.getElementById("result");
+
+    if (value === 60) {
+        result.innerHTML = "<span class='success'>Coolant stabilized! Engines are now safe.</span>";
+    } else {
+        result.innerHTML = "Incorrect pressure. Try again.";
+    }
+}
+
+localStorage.setItem("task_engines", "done");
+</script>
+
+</body>
+</html>
