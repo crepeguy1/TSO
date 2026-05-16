@@ -112,38 +112,75 @@
             z-index: 9998;
         }
 
-        #nav-btn {
-            position: fixed;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 22px 48px;
-            background: rgba(0, 255, 180, 0.12);
-            border: 2px solid #00ffcc;
-            color: #00ffcc;
-            font-size: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            text-shadow: 0 0 12px #00ffcc;
-            z-index: 999999;
-            backdrop-filter: blur(6px);
-            border-radius: 14px;
-            transition: 0.25s ease;
-            box-shadow: 0 0 18px rgba(0,255,200,0.25),
-                        inset 0 0 12px rgba(0,255,200,0.15);
+        .nav-btn {
+        position: fixed;
+        top: 45%;
+        left: 15%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;          /* smaller padding */
+        background: rgba(0, 255, 180, 0.12);
+        border: 1px solid #00ffcc;   /* thinner border */
+        color: #00ffcc;
+        font-size: 18px;             /* smaller text */
+        font-weight: 600;
+        cursor: pointer;
+        text-shadow: 0 0 6px #00ffcc; /* reduced glow */
+        z-index: 999999;
+        backdrop-filter: blur(4px);
+        border-radius: 10px;
+        transition: 0.25s ease;
+        box-shadow: 0 0 10px rgba(0,255,200,0.2),
+        inset 0 0 6px rgba(0,255,200,0.1);
+
         }
 
-        #nav-btn:hover {
+        .nav-btn:hover {
             background: rgba(0, 255, 200, 0.18);
             transform: translate(-50%, -50%) scale(1.06);
             box-shadow: 0 0 26px rgba(0,255,200,0.45),
                         inset 0 0 18px rgba(0,255,200,0.25);
         }
 
-        #nav-btn:active {
+        .nav-btn:active {
             transform: translate(-50%, -50%) scale(0.98);
             box-shadow: 0 0 14px rgba(0,255,200,0.3),
                         inset 0 0 10px rgba(0,255,200,0.2);
+        }
+
+
+        .ctrl-btn {
+            position: fixed;
+            top: 45%;
+            left: 85%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;          /* smaller padding */
+            background: rgba(0, 255, 180, 0.12);
+            border: 1px solid #00ffcc;   /* thinner border */
+            color: #00ffcc;
+            font-size: 18px;             /* smaller text */
+            font-weight: 600;
+            cursor: pointer;
+            text-shadow: 0 0 6px #00ffcc; /* reduced glow */
+            z-index: 999999;
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            transition: 0.25s ease;
+            box-shadow: 0 0 10px rgba(0,255,200,0.2),
+            inset 0 0 6px rgba(0,255,200,0.1);
+
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(0, 255, 200, 0.18);
+            transform: translate(-50%, -50%) scale(1.06);
+            box-shadow: 0 0 26px rgba(0,255,200,0.45),
+            inset 0 0 18px rgba(0,255,200,0.25);
+        }
+
+        .ctrl-btn:active {
+            transform: translate(-50%, -50%) scale(0.98);
+            box-shadow: 0 0 14px rgba(0,255,200,0.3),
+            inset 0 0 10px rgba(0,255,200,0.2);
         }
 
 
@@ -336,6 +373,7 @@
             transition: 0.2s;
             backdrop-filter: blur(4px);
             z-index: 9999;
+
         }
 
         .holo-button:hover {
@@ -392,6 +430,12 @@
             padding: 8px;
             font-family: monospace;
         }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
     </style>
 </head>
 
@@ -408,6 +452,8 @@
     <!-- SYSTEM ONLINE INTRO -->
     <div id="system-online">SYSTEM ONLINE</div>
 
+
+    
     <!-- CUSTOM CURSOR -->
     <div id="cursor-dot"></div>
 
@@ -426,6 +472,11 @@
     <!-- HOLOGRAM SOUND -->
     <audio id="ui-beep" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
 
+
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
     <!-- AI VOICE -->
     <audio id="ai-voice" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-changing-tab-206.wav"></audio>
 
@@ -433,7 +484,7 @@
     <div id="warning-alert">WARNING</div>
 
     <!-- HOLOGRAM BUTTON -->
-    <div class="holo-button" onclick="playVoiceLine('Command executed.')">ACTIVATE</div>
+    <!--<div class="holo-button" onclick="playVoiceLine('Command executed.')">ACTIVATE</div>
 
     <!-- TERMINAL CONSOLE -->
     <div id="console">
@@ -454,21 +505,20 @@
     </script>
 
     <!-- ORIGINAL CONTENT -->
-    <h2 class="neon-flicker">Test</h2>
-    <p>Having made a website using AI, I will now try it on my own.</p>
+    <!-- <h2 class="neon-flicker">Test</h2>
+    <!--<p>Having made a website using AI, I will now try it on my own.</p>-->
 
-    <h1 class="neon-flicker">Here we go!</h1>
+    <!-- <h1 class="neon-flicker">Here we go!</h1> -->
 
-    <p>Now I know what this does</p>
+    <!--<p>Now I know what this does</p>
 
     <button onclick="prompt('Click me!')">Click me!</button>
 
     <!--for opening page-->
-    <button onclick="loadNewPage('controlpanel.html')">Control Panel</button>
+    <div class="ctrl-btn" onclick = "loadNewPage('controlpanel.html')">Go to control panel</div>
 
-    <div class="nav-btn" onclick="loadNewPage('navigationsys.html')">Go to the navigation system</div>
+    <div class="nav-btn" onclick="loadNewPage('systems/navigationsys.html')">Go to the navigation system</div>
 
-    
     <!-- INTERACTION SCRIPT -->
     <script>
         const circle = document.querySelector(".circle");
@@ -624,7 +674,7 @@
         }); 
     
     </script>
-    <button id="test">TEST SOUND</button>
+    <!-- <button id="test">TEST SOUND</button> -->
 
     <audio id="test-sound" src="mixkit-sci-fi-click-900.mp3"></audio>
 

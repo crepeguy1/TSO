@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation System</title>
+
+<style>
+    body {
+        background: #000;
+        color: #0ff;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        padding: 40px;
+        overflow: hidden;
+        transition: background-image 1.5s ease-in-out;
+        background-size: cover;
+        background-position: center;
+    }
+
+    #overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    h1 {
+        color: #0ff;
+        text-shadow: 0 0 15px #0ff;
+        position: relative;
+        z-index: 2;
+    }
+
+    .panel {
+        margin-top: 30px;
+        padding: 20px;
+        border: 3px solid #0ff;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #0ff;
+        background: #111;
+        display: inline-block;
+        width: 420px;
+        position: relative;
+        z-index: 2;
+    }
+
+    select {
+        width: 80%;
+        padding: 10px;
+        margin-top: 15px;
+        background: #000;
+        color: #0ff;
+        border: 2px solid #0ff;
+        border-radius: 8px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 12px 25px;
+        background: #022;
+        border: 2px solid #0ff;
+        color: #0ff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.2s;
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn:hover {
+        background: #044;
+        box-shadow: 0 0 15px #0ff;
+    }
+
+    .progress-bg {
+        width: 100%;
+        height: 20px;
+        background: #222;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #0ff, #ff0, #f00);
+        box-shadow: 0 0 20px #0ff;
+        transition: 0.2s;
+    }
+
+    #warpTunnel {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle, #fff 0%, #00f 20%, #000 70%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: 0.5s;
+        background-size: 200% 200%;
+        animation: none;
+    }
+
+    @keyframes tunnelSpin {
+        0% { background-position: 50% 50%; transform: scale(1); }
+        50% { background-position: 100% 100%; transform: scale(3); }
+        100% { background-position: 50% 50%; transform: scale(1); }
+    }
+
+    @keyframes shake {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(5px, -5px); }
+        50% { transform: translate(-5px, 5px); }
+        75% { transform: translate(5px, 5px); }
+        100% { transform: translate(0, 0); }
+    }
+
+    #arrivalFlash {
+        position: fixed;
+        inset: 0;
+        background: white;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 99999;
+        transition: 0.3s;
+    }
+
+    #status {
+        min-height: 40px;
+        margin-top: 10px;
+    }
+</style>
+
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<h1>🧭 MULTIVERSE NAVIGATION SYSTEM</h1>
+
+<div class="panel">
+    <p>Select your destination:</p>
+
+    <select id="destination">
+        <optgroup label="Real Places">
+            <option value="tokyo">Tokyo</option>
+            <option value="nyc">New York City</option>
+            <option value="paris">Paris</option>
+            <option value="grandcanyon">Grand Canyon</option>
+            <option value="iceland">Iceland</option>
+            <option value="sahara">Sahara Desert</option>
+        </optgroup>
+
+        <optgroup label="Media‑Style Worlds">
+            <option value="hill1985">Hill Valley – 1985</option>
+            <option value="hill2015">Hill Valley – 2015</option>
+            <option value="oldwest">Old West – 1885</option>
+            <option value="cyberpunk">Cyberpunk City</option>
+            <option value="fantasy">Fantasy Medieval Town</option>
+            <option value="station">Orbital Space Station</option>
+            <option value="zebes">Zebes</option>
+        </optgroup>
+
+        <optgroup label="Sanderson Worlds">
+            <option value="roshar">Roshar</option>
+            <option value="scadrial">Scadrial</option>
+            <option value="nalthis">Nalthis</option>
+            <option value="taldain">Taldain</option>
+            <option value="firstsun">First of the Sun</option>
+        </optgroup>
+
+        <optgroup label="Skyward / PHM">
+            <option value="detritus">Detritus (Skyward)</option>
+            <option value="phm">Project Hail Mary – Deep Space</option>
+        </optgroup>
+    </select>
+
+    <button class="btn" onclick="engage()">Engage Navigation</button>
+
+    <div class="progress-bg">
+        <div id="progressFill" class="progress-fill"></div>
+    </div>
+
+    <p id="status"></p>
+</div>
+
+<button class="btn" onclick="window.location='controlpanel.html'">Return to Control Panel</button>
+
+<div id="warpTunnel"></div>
+<div id="arrivalFlash"></div>
+
+<script>
+const backgrounds = {
+    // Real places
+    tokyo: "url('https://images.unsplash.com/photo-1505066836043-7a2ae83d1338')",
+    nyc: "url('https://images.unsplash.com/photo-1469474968028-56623f02e42e')",
+    paris: "url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34')",
+    grandcanyon: "url('https://images.unsplash.com/photo-1508261306211-45a1c5c2a5c5')",
+    iceland: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0')",
+    sahara: "url('https://images.unsplash.com/photo-1508261306211-0e3b5c008651')",
+
+    // Media‑style
+    hill1985: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0')",      // small town
+    hill2015: "url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d')",      // clean future city
+    oldwest: "url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')",       // western desert
+    cyberpunk: "url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d')",     // neon city
+    fantasy: "url('https://images.unsplash.com/photo-1526481280695-3c687fd543c0')",       // medieval town
+    station: "url('https://images.unsplash.com/photo-1581090700227-1e37b190418e')",       // sci‑fi interior
+    zebes: "url('https://tse4.mm.bing.net/th/id/OIP.e1qfWLuo41TKQh-CuGuK5AAAAA?rs=1&pid=ImgDetMain&o=7&rm=3')",         // alien cavern vibe
+
+    // Sanderson
+    roshar: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?roshar')",  // rocky storm plains vibe
+    scadrial: "url('https://images.unsplash.com/photo-1482192596544-9eb780fc7f66')",      // misty industrial city
+    nalthis: "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",       // colorful city
+    taldain: "url('https://images.unsplash.com/photo-1508261306211-0e3b5c008651?taldain')", // bright desert
+    firstsun: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')",      // tropical island
+
+    // Skyward / PHM
+    detritus: "url('images/detritus.png')",     // debris‑ring space
+    phm: "url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?phm')"        // deep space / ship vibe
+};
+
+function engage() {
+    let destKey = document.getElementById("destination").value;
+    let status = document.getElementById("status");
+    let bar = document.getElementById("progressFill");
+    let tunnel = document.getElementById("warpTunnel");
+    let flash = document.getElementById("arrivalFlash");
+
+    status.innerText = "Navigation engaged… plotting route…";
+    bar.style.width = "0%";
+
+    let progress = 0;
+    let interval = setInterval(() => {
+        progress += 5;
+        bar.style.width = progress + "%";
+
+        if (progress === 25) status.innerText = "Stabilizing vectors…";
+        if (progress === 50) status.innerText = "Aligning flux pathways…";
+        if (progress === 75) status.innerText = "Charging warp tunnel…";
+
+        if (progress >= 100) {
+            clearInterval(interval);
+            status.innerText = "Initiating jump…";
+
+            tunnel.style.opacity = 1;
+            tunnel.style.animation = "tunnelSpin 2s ease-out";
+            document.body.style.animation = "shake 0.2s infinite";
+
+            setTimeout(() => {
+                flash.style.opacity = 1;
+            }, 1800);
+
+            setTimeout(() => {
+                flash.style.opacity = 0;
+                tunnel.style.opacity = 0;
+                document.body.style.animation = "none";
+
+                if (backgrounds[destKey]) {
+                    document.body.style.backgroundImage = backgrounds[destKey];
+                }
+
+                const label = document.querySelector(`#destination option[value="${destKey}"]`).textContent;
+                status.innerText = "Arrived at " + label + ".";
+            }, 2300);
+        }
+    }, 120);
+}
+</script>
+
+</body>
+</html>
