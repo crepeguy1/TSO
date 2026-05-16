@@ -6,12 +6,18 @@
 <title>Navigation System</title>
 
 <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         background: #000;
         color: #0ff;
         font-family: 'Courier New', monospace;
         text-align: center;
-        padding: 40px;
+        padding-top: 40px;
         overflow: hidden;
         transition: background-image 1.5s ease-in-out;
         background-size: cover;
@@ -21,7 +27,7 @@
     #overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.6);
+        background: rgba(0,0,0,0.55);
         pointer-events: none;
         z-index: 1;
     }
@@ -34,7 +40,7 @@
     }
 
     .panel {
-        margin-top: 30px;
+        margin-top: 20px;
         padding: 20px;
         border: 3px solid #0ff;
         border-radius: 10px;
@@ -94,9 +100,12 @@
         transition: 0.2s;
     }
 
+    /* FULLSCREEN warp tunnel */
     #warpTunnel {
         position: fixed;
         inset: 0;
+        width: 100%;
+        height: 100%;
         background: radial-gradient(circle, #fff 0%, #00f 20%, #000 70%);
         opacity: 0;
         pointer-events: none;
@@ -112,6 +121,7 @@
         100% { background-position: 50% 50%; transform: scale(1); }
     }
 
+    /* Screen shake */
     @keyframes shake {
         0% { transform: translate(0, 0); }
         25% { transform: translate(5px, -5px); }
@@ -120,9 +130,12 @@
         100% { transform: translate(0, 0); }
     }
 
+    /* FULLSCREEN arrival flash */
     #arrivalFlash {
         position: fixed;
         inset: 0;
+        width: 100%;
+        height: 100%;
         background: white;
         opacity: 0;
         pointer-events: none;
@@ -133,6 +146,128 @@
     #status {
         min-height: 40px;
         margin-top: 10px;
+    }
+    #hologram {
+        position: fixed;
+        top: 15%;
+        left: 70%;
+        transform: translateX(-50%);
+        width: 260px;
+        padding: 10px;
+        background: rgba(0, 20, 60, 0.3);
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        color: #0ff;
+        z-index: 3;
+        text-align: center;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 25px #0ff, inset 0 0 10px #0ff;
+        animation: holoGlow 3s infinite alternate;
+    }
+
+    #holoImage {
+        width: 100%;
+        height: 140px;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid #0ff;
+        border-radius: 6px;
+        box-shadow: 0 0 20px #0ff;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Animated shimmer lines */
+    #holoImage::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(0,255,255,0.15) 0px,
+            rgba(0,255,255,0.05) 2px,
+            transparent 4px
+        );
+        animation: holoScan 2s linear infinite;
+    }
+
+    /* Subtle flicker glow */
+    @keyframes holoGlow {
+        0% { box-shadow: 0 0 15px #0ff, inset 0 0 5px #0ff; opacity: 0.9; }
+        50% { box-shadow: 0 0 25px #0ff, inset 0 0 10px #0ff; opacity: 1; }
+        100% { box-shadow: 0 0 15px #0ff, inset 0 0 5px #0ff; opacity: 0.9; }
+    }
+
+    /* Moving scan lines */
+    @keyframes holoScan {
+        0% { background-position: 0 0; }
+        100% { background-position: 0 100%; }
+    }
+
+
+    /* MINI-MAP */
+    #minimap {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 180px;
+        padding: 10px;
+        background: rgba(0,0,0,0.6);
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        color: #0ff;
+        z-index: 3;
+        text-align: center;
+        box-shadow: 0 0 20px #0ff;
+    }
+
+    #minimapPreview {
+        width: 100%;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+        border: 2px solid #0ff;
+        border-radius: 6px;
+        margin-bottom: 8px;
+    }
+
+    @keyframes holoPulse {
+    0% { opacity: 0.9; box-shadow: 0 0 10px #0ff; }
+    50% { opacity: 1; box-shadow: 0 0 20px #0ff; }
+    100% { opacity: 0.9; box-shadow: 0 0 10px #0ff; }
+    }
+
+    #holoImage {
+        animation: holoPulse 2s infinite;
+    }
+
+
+    /* TRAVEL LOG */
+    #travelLog {
+        position: fixed;
+        top: 120px;
+        right: 20px;
+        width: 220px;
+        height: 300px;
+        overflow-y: auto;
+        background: rgba(0,0,0,0.6);
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        padding: 10px;
+        color: #0ff;
+        z-index: 3;
+    }
+
+    #travelLog ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #travelLog li {
+        margin-bottom: 6px;
+        border-bottom: 1px solid #0ff;
+        padding-bottom: 4px;
     }
 </style>
 
@@ -176,7 +311,7 @@
 
         <optgroup label="Skyward / PHM">
             <option value="detritus">Detritus (Skyward)</option>
-            <option value="phm">Project Hail Mary – Deep Space</option>
+            <option value="phm">Adrian System Planet (Project Hail Mary)</option>
         </optgroup>
     </select>
 
@@ -191,39 +326,61 @@
 
 <button class="btn" onclick="window.location='controlpanel.html'">Return to Control Panel</button>
 
+<!-- HOLOGRAM -->
+<div id="hologram">
+    <h3>Hologram Preview</h3>
+    <div id="holoImage"></div>
+</div>
+
+<!-- MINI-MAP -->
+<div id="minimap">
+    <h3>Mini‑Map</h3>
+    <div id="minimapPreview"></div>
+    <p id="minimapLabel">Current Location: None</p>
+</div>
+
+<!-- TRAVEL LOG -->
+<div id="travelLog">
+    <h3>Travel Log</h3>
+    <ul id="logList"></ul>
+</div>
+
 <div id="warpTunnel"></div>
 <div id="arrivalFlash"></div>
 
 <script>
+/* All images replaced with stable URLs + your custom Detritus + your PHM image */
 const backgrounds = {
-    // Real places
-    tokyo: "url('https://images.unsplash.com/photo-1505066836043-7a2ae83d1338')",
-    nyc: "url('https://images.unsplash.com/photo-1469474968028-56623f02e42e')",
-    paris: "url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34')",
-    grandcanyon: "url('https://images.unsplash.com/photo-1508261306211-45a1c5c2a5c5')",
-    iceland: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0')",
-    sahara: "url('https://images.unsplash.com/photo-1508261306211-0e3b5c008651')",
+    tokyo: "url('https://cdn.kimkim.com/files/a/images/6077051d16379eab327d03204d2c5d91cda44b25/original-c0d3cfb1770d1639002f327240fc2338.jpg')",
+    nyc: "url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80')",
+    paris: "url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=80')",
+    grandcanyon: "url('https://greensmarteco.com/wp-content/uploads/2020/07/grand-canyon-national-park-horseshoe-bend-travel-usa.jpg')",
+    iceland: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?auto=format&fit=crop&w=1600&q=80')",
+    sahara: "url('https://images.unsplash.com/photo-1508261306211-0e3b5c008651?auto=format&fit=crop&w=1600&q=80')",
 
-    // Media‑style
-    hill1985: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0')",      // small town
-    hill2015: "url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d')",      // clean future city
-    oldwest: "url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')",       // western desert
-    cyberpunk: "url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d')",     // neon city
-    fantasy: "url('https://images.unsplash.com/photo-1526481280695-3c687fd543c0')",       // medieval town
-    station: "url('https://images.unsplash.com/photo-1581090700227-1e37b190418e')",       // sci‑fi interior
-    zebes: "url('https://tse4.mm.bing.net/th/id/OIP.e1qfWLuo41TKQh-CuGuK5AAAAA?rs=1&pid=ImgDetMain&o=7&rm=3')",         // alien cavern vibe
+    hill1985: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?auto=format&fit=crop&w=1600&q=80')",
+    hill2015: "url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=80')",
+    oldwest: "url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80')",
+    cyberpunk: "url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1600&q=80')",
+    fantasy: "url('https://images.unsplash.com/photo-1526481280695-3c687fd543c0?auto=format&fit=crop&w=1600&q=80')",
+    station: "url('https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=1600&q=80')",
+    zebes: "url('https://i.redd.it/pm466mis31ec1.jpeg')",
 
-    // Sanderson
-    roshar: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?roshar')",  // rocky storm plains vibe
-    scadrial: "url('https://images.unsplash.com/photo-1482192596544-9eb780fc7f66')",      // misty industrial city
-    nalthis: "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",       // colorful city
-    taldain: "url('https://images.unsplash.com/photo-1508261306211-0e3b5c008651?taldain')", // bright desert
-    firstsun: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')",      // tropical island
+    roshar: "url('https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?auto=format&fit=crop&w=1600&q=80')",
+    scadrial: "url('https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=1600&q=80')",
+    nalthis: "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80')",
+    taldain: "url('https://images.unsplash.com/photo-1508261306211-0e3b5c008651?auto=format&fit=crop&w=1600&q=80')",
+    firstsun: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')",
 
-    // Skyward / PHM
-    detritus: "url('images/detritus.png')",     // debris‑ring space
-    phm: "url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?phm')"        // deep space / ship vibe
+    detritus: "url('images/detritus.png')",
+    phm: "url('https://www.shockmansion.com/wp-content/myimages/2025/11/projecthailmary-still.jpg')"
 };
+
+/* HOLOGRAM PREVIEW */
+document.getElementById("destination").addEventListener("change", function() {
+    let key = this.value;
+    document.getElementById("holoImage").style.backgroundImage = backgrounds[key];
+});
 
 function engage() {
     let destKey = document.getElementById("destination").value;
@@ -267,6 +424,17 @@ function engage() {
 
                 const label = document.querySelector(`#destination option[value="${destKey}"]`).textContent;
                 status.innerText = "Arrived at " + label + ".";
+
+                /* MINI-MAP UPDATE */
+                document.getElementById("minimapPreview").style.backgroundImage = backgrounds[destKey];
+                document.getElementById("minimapLabel").innerText = "Current Location: " + label;
+
+                /* TRAVEL LOG UPDATE */
+                let log = document.getElementById("logList");
+                let entry = document.createElement("li");
+                entry.innerText = "Arrived at " + label + " — " + new Date().toLocaleTimeString();
+                log.appendChild(entry);
+
             }, 2300);
         }
     }, 120);
